@@ -3,9 +3,7 @@ package pe.edu.cibertec.web_backoffice_lym.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import pe.edu.cibertec.web_backoffice_lym.dto.FilmDetailDto;
 import pe.edu.cibertec.web_backoffice_lym.dto.FilmDto;
 import pe.edu.cibertec.web_backoffice_lym.service.MaintenanceService;
@@ -32,6 +30,19 @@ public class MaintenanceController {
         FilmDetailDto filmDetailDto = maintenanceService.findFilmById(id);
         model.addAttribute("film", filmDetailDto);
         return "maintenance_detail";
+    }
+
+    @GetMapping("/edit/{id}")
+    public String edit(@PathVariable Integer id, Model model) {
+        FilmDetailDto filmDetailDto = maintenanceService.findFilmById(id);
+        model.addAttribute("film", filmDetailDto);
+        return "maintenance_edit";
+    }
+
+    @PostMapping("/edit-confirm")
+    public String editConfirm(@ModelAttribute FilmDetailDto filmDetailDto, Model model) {
+        maintenanceService.updateFilm(filmDetailDto);
+        return "redirect:/maintenance/start";
     }
 
 }
