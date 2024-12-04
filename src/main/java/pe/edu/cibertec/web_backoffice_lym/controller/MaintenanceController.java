@@ -19,7 +19,6 @@ public class MaintenanceController {
 
     @GetMapping("/start")
     public String start(Model model) {
-
         List<FilmDto> films = maintenanceService.findAllFilms();
         model.addAttribute("films", films);
         return "maintenance";
@@ -42,6 +41,12 @@ public class MaintenanceController {
     @PostMapping("/edit-confirm")
     public String editConfirm(@ModelAttribute FilmDetailDto filmDetailDto, Model model) {
         maintenanceService.updateFilm(filmDetailDto);
+        return "redirect:/maintenance/start";
+    }
+
+    @PostMapping("/remove/{id}")
+    public String remove(@PathVariable Integer id, Model model) {
+        System.out.println("Eliminando " + id);
         return "redirect:/maintenance/start";
     }
 
